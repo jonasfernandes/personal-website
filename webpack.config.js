@@ -1,30 +1,33 @@
-'use strict';
+"use strict";
 
-var path = require('path');
-var webpack = require('webpack');
+var path = require("path");
+var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var styleLintPlugin = require('stylelint-webpack-plugin');
+var styleLintPlugin = require("stylelint-webpack-plugin");
 
-require('es6-promise').polyfill();
+require("es6-promise").polyfill();
 
 module.exports = {
-  entry: './src/main.js',
+  entry: "./src/main.js",
 
   output: {
     path: __dirname,
-    filename: 'js/app.js'
+    filename: "js/app.js"
   },
 
   plugins: [
     // Specify the resulting CSS filename
-    new ExtractTextPlugin('css/app.css'),
-
+    new ExtractTextPlugin({
+      filename: "css/app.css",
+      allChunks: true,
+      disable: process.env.NODE_ENV !== "production"
+    }),
     // Stylelint plugin
     new styleLintPlugin({
-      configFile: '.stylelintrc',
-      context: '',
-      files: '**/*.scss',
-      syntax: 'scss',
+      configFile: ".stylelintrc",
+      context: "",
+      files: "**/*.scss",
+      syntax: "scss",
       failOnError: false,
       quiet: false
     })
@@ -35,19 +38,13 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader'
-        ]
+        use: ["babel-loader"]
       },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            'postcss-loader',
-            'sass-loader'
-          ]
+          fallback: "style-loader",
+          use: ["css-loader", "postcss-loader", "sass-loader"]
         })
       }
     ]
@@ -59,5 +56,5 @@ module.exports = {
   },
 
   // Create Sourcemaps for the bundle
-  devtool: 'source-map'
+  devtool: "source-map"
 };

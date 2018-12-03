@@ -1,13 +1,3 @@
-/** postcss-bem-linter: define main-component; weak */
-$color: #555;
-
-.main-component {
-  &__title {
-    color: $color;
-  }
-}
-
-/** postcss-bem-linter: define utilities */
-.u-ellipsis {
-  color: $color;
-}
+@import "css/reset.scss";
+@import "css/general.scss";
+@import "css/projects.scss";
